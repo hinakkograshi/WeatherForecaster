@@ -7,8 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, WeatherManagerDelegate {
-    
+class ViewController: UIViewController {
     
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -20,6 +19,7 @@ class ViewController: UIViewController, WeatherManagerDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // 🟥「分かった！やったるよ！」と指示を受け取る側
         //クラスをデリゲートとして設定
         weatherManager.delegate = self
     }
@@ -35,6 +35,11 @@ class ViewController: UIViewController, WeatherManagerDelegate {
     }
     @IBAction func cancel(segue: UIStoryboardSegue) {
     }
+}
+
+//MARK: - WeatherManagerDelegate
+
+extension ViewController: WeatherManagerDelegate {
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         DispatchQueue.main.async {
             self.temperatureLabel.text = weather.temperatureString

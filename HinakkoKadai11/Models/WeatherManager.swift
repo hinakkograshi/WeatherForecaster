@@ -6,20 +6,24 @@
 //
 
 import Foundation
-
+   //🟩Delegateをprotocolで定義
 protocol WeatherManagerDelegate {
     //要求が設定される
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
     func didFailWithError(error: Error)
 }
-
+//管理するものにマネージャーは意味が広い
 struct WeatherManager {
 
     var lat: String
     var lon: String
-    //   https://api.openweathermap.org/data/2.5/weather?lat=43.064301&lon=141.346874&appid=07700360da3b993cae32a391753e3e8e&units=metric
-    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&lang=ja&appid=07700360da3b993cae32a391753e3e8e&units=metric"
+    
+    const APIKEY = process.env.React_APP_OPENWEATHERMAP_API_KEY;
+
+    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&lang=ja&appid=React_APP_OPENWEATHERMAP_API_KEY&units=metric"
+    //API_KEY_HERE = 07700360da3b993cae32a391753e3e8e
     //なんらかのクラスや構造体がデリゲートとして設定されていれば、delegateを呼び出して天気更新する指示ができる。
+    //🟦「お〜い、〇〇して〜！」と指示を送りたい側
     var delegate: WeatherManagerDelegate?
     
     mutating func fetchWeather(weatherPrefecture: String) {
@@ -169,11 +173,11 @@ struct WeatherManager {
             break
         }
         let urlString = "\(weatherURL)&lat=\(lat)&lon=\(lon)"
-        print(urlString)
-        //        🟩performRequest(urlString: urlString)
+    // 🟩performRequest(urlString: urlString)
         performRequest(with: urlString)
     }
     //🟩with追加
+    //SwiftAPI
     func performRequest(with urlString: String) {
         //ネットワーク接続の4つのステップ
         //1.URLの作成
@@ -182,13 +186,12 @@ struct WeatherManager {
             let session = URLSession(configuration: .default)
             //3.セッションにタスクを与えることができる。URLSessionDataTask生成。関数として受け取る。
             let task = session.dataTask(with: url) { data, respose, error in
-                //ネットワーク処理全体にエラーがないかどうかをチェック
-                if error !=  nil {
-                    self.delegate?.didFailWithError(error: error!)
+                //オプショナルバインディング
+                if let error =  error {
+                    self.delegate?.didFailWithError(error: error)
                     return
                 }
                 if let safeData = data {
-                    //                    🟥if let weather = self.parseJSON(weatherData: safeData)
                     if let weather = self.parseJSON(safeData) {
                         //ViewControllerに取得した値を渡す。
                         self.delegate?.didUpdateWeather(self, weather: weather)
@@ -199,14 +202,38 @@ struct WeatherManager {
             task.resume()
         }
     }
+
+    //    func performRequest(with urlString: String) async throws {
+    //        //ネットワーク接続の4つのステップ
+    //        //1.URLの作成
+    //        let url = URL(string: urlString)!
+    //
+    //            let task = try await URLSession.shared.dataTask(with: url) { data, respose, error in
+    //                //ネットワーク処理全体にエラーがないかどうかをチェック
+    //                if error !=  nil {
+    //                    self.delegate?.didFailWithError(error: error!)
+    //                    return
+    //                }
+    //                if let safeData = data {
+    //                    if let weather = self.parseJSON(safeData) {
+    //                        //ViewControllerに取得した値を渡す。
+    //                        self.delegate?.didUpdateWeather(self, weather: weather)
+    //                    }
+    //                }
+    //            }
+    //            //4.タスク開始を完了させる。タスクが中断されている場合、再開する。新しいタスクを作成すると中断した状態で開始される。
+    //            task.resume()
+    //    }
     //dataTaskから戻ってくるのはData型
     //JSON形式からデータを解析する
     //OpenWeatherMapからWeatherDataを取得し、JSONレスポンスを渡す
     func parseJSON(_ weatherData: Data) -> WeatherModel? {
         //JSONオブジェクトからデータ型のインスタンスをデコードできるオブジェクト
         let decoder = JSONDecoder()
+
         do {
             let decodeData = try decoder.decode(WeatherData.self, from: weatherData)
+            // isEmpty
             let id = decodeData.weather[0].id
             let temp = decodeData.main.temp
             let name = decodeData.name
