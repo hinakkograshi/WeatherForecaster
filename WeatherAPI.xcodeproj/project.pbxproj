@@ -26,7 +26,6 @@
 		5323B05D2A7F489300B63475 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		532F83B52A4C407400E4E2E9 /* PrefectureViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefectureViewController.swift; sourceTree = "<group>"; };
 		532F83BD2A4C717600E4E2E9 /* PrefectureData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrefectureData.swift; sourceTree = "<group>"; };
-		53338DFE2A8BC2A50004A12D /* .env.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = .env.h; sourceTree = "<group>"; };
 		536144162A5154170032F4B5 /* PrefectureViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = PrefectureViewController.storyboard; sourceTree = "<group>"; };
 		53B0C6D52A49BA0300539FC4 /* HinakkoKadai11.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HinakkoKadai11.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		53B0C6D82A49BA0300539FC4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -98,7 +97,6 @@
 		53B0C6D72A49BA0300539FC4 /* HinakkoKadai11 */ = {
 			isa = PBXGroup;
 			children = (
-				53338DFE2A8BC2A50004A12D /* .env.h */,
 				53B0C6D82A49BA0300539FC4 /* AppDelegate.swift */,
 				53B0C6DA2A49BA0300539FC4 /* SceneDelegate.swift */,
 				53487ABD2A5145B200510C17 /* Models */,

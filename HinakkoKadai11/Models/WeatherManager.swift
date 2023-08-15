@@ -17,10 +17,8 @@ struct WeatherManager {
 
     var lat: String
     var lon: String
-    
-    const APIKEY = process.env.React_APP_OPENWEATHERMAP_API_KEY;
 
-    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&lang=ja&appid=React_APP_OPENWEATHERMAP_API_KEY&units=metric"
+    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&lang=ja&appid=\(ProcessInfo.processInfo.environment["API_KEY"] ?? "")&units=metric"
     //API_KEY_HERE = 07700360da3b993cae32a391753e3e8e
     //なんらかのクラスや構造体がデリゲートとして設定されていれば、delegateを呼び出して天気更新する指示ができる。
     //🟦「お〜い、〇〇して〜！」と指示を送りたい側
