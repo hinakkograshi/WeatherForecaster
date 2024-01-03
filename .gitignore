@@ -1,5 +1,2 @@
 
-
-
-.env
-Environment.swift
+Constants.swift
