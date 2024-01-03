@@ -18,8 +18,7 @@ struct WeatherManager {
     var lat: String
     var lon: String
 
-    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&lang=ja&appid=\(Constants.apiKey)"
-
+    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?&lang=ja&appid=\(Constants.apiKey)&units=metric"
 
     //なんらかのクラスや構造体がデリゲートとして設定されていれば、delegateを呼び出して天気更新する指示ができる。
     //🟦「お〜い、〇〇して〜！」と指示を送りたい側
@@ -27,14 +26,15 @@ struct WeatherManager {
     
     mutating func fetchWeather(weatherPrefecture: String) {
 //        let prefectureLatLon = PrefectureLatLon()
-        var prefectureLatLon = PrefectureLatLon().fetchLatLon(weatherPrefecture: weatherPrefecture)
+        let prefectureLatLon = PrefectureLatLon().fetchLatLon(weatherPrefecture: weatherPrefecture)
         lat = prefectureLatLon.lat
         lon = prefectureLatLon.lon
         let urlString = "\(weatherURL)&lat=\(lat)&lon=\(lon)"
-        // 🟩performRequest(urlString: urlString)
+
+
         performRequest(with: urlString)
     }
-    //🟩with追加
+
     //SwiftAPI
     func performRequest(with urlString: String) {
         //ネットワーク接続の4つのステップ
@@ -44,7 +44,6 @@ struct WeatherManager {
         let session = URLSession(configuration: .default)
         //3.セッションにタスクを与えることができる。URLSessionDataTask生成。関数として受け取る。
         let task = session.dataTask(with: url) { data, respose, error in
-            //オプショナルバインディング
             if let error =  error {
                 self.delegate?.didFailWithError(error: error)
                 return
